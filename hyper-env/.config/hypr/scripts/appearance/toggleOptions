@@ -1,0 +1,81 @@
+# #!/bin/bash
+
+# TODO: Make it so this can also execute other scripts in order to make this the main location for toggling options
+
+# wofi window config (in %)
+WIDTH=20
+HEIGHT=30
+
+
+# WOFI STYLES
+WOFI_CONFIG="$HOME/.config/hypr/wofifull/config"
+WOFI_STYLE="$HOME/.config/hypr/wofifull/style.css"
+WOFI_COLORS="$HOME/.config/hypr/wofifull/colors"
+
+## Wofi Command
+wofi_command="wofi --show dmenu \
+			--prompt choose...
+			--conf $WOFI_CONFIG --style $WOFI_STYLE --color $WOFI_COLORS \
+			--width=$WIDTH% --height=$HEIGHT% \
+			--cache-file=/dev/null \
+			--hide-scroll --no-actions \
+			--matching=fuzzy"
+
+
+HYPR_CONFIG="$HOME/.config/hypr/hyprland.conf"
+
+# Load Hypr Config Details
+CONFIGS_DIR="$HOME/.config/hypr/configs/overrides"
+CONFIGS=($(ls "${CONFIGS_DIR}"/*.conf | xargs -n1 basename))
+file="$HOME/.config/hypr/hyprland.conf"
+
+common_items=()
+uncommon_items=()
+
+# Check all config files sourced in file
+for config_file in "${CONFIGS[@]}"; do
+    source_line="source=~/.config/hypr/configs/overrides/$config_file"
+    if grep -qF "$source_line" "$file"; then
+        common_items+=("${config_file%.conf}")
+    else
+        uncommon_items+=("${config_file%.conf}")
+    fi
+done
+
+
+menu(){
+    if [[ ${#common_items[@]} -ne 0 ]]; then
+        printf '%s ✓\n' "${common_items[@]}"
+    fi
+    if [[ ${#uncommon_items[@]} -ne 0 ]]; then
+        printf '%s ❌\n' "${uncommon_items[@]}"
+    fi
+}
+
+
+main() {
+    choice=$(menu | ${wofi_command})
+
+    # no choice case
+    if [[ -z $choice ]]; then return; fi
+
+    echo $choice
+    choice=$(echo "$choice" | cut -d' ' -f1)
+    echo $choice
+
+
+    SOURCE_LINE="source=~/.config/hypr/configs/overrides/$choice.conf"
+    if grep -Fxq "$SOURCE_LINE" "$HYPR_CONFIG"; then
+        sed -i "\|$SOURCE_LINE|d" "$HYPR_CONFIG"
+    else
+        echo "$SOURCE_LINE" >> "$HYPR_CONFIG"
+    fi
+}
+
+# Check if wofi is already running
+if pidof wofi >/dev/null; then
+    killall wofi
+    exit 0
+else
+    main
+fi
