@@ -1,9 +1,8 @@
-alias testa="echo hello"
 # If you come from bash you might have to change your $PATH
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
 # export PATH=$PATH:~/.cargo/bin
 # source "$HOME/.cargo/env"
-
+source $HOME/.agent-bridge.sh
 # [ -d /usr/lib/rustup/bin ] && PATH=$PATH:/usr/lib/rustup/bin
 
 # Path to your oh-my-zsh installation.
@@ -26,6 +25,13 @@ plugins=(
 	fzf
 )
 source $ZSH/oh-my-zsh.sh
+
+
+if [ -n "$WSL_DISTRO_NAME" ]; then
+    alias ssh="/mnt/c/Windows/System32/OpenSSH//ssh.exe" # or just ssh.exe
+    alias ssh-add="/mnt/c/Windows/System32/OpenSSH//ssh-add.exe" # or just ssh-add.exe
+fi
+
 
 alias ohmyzsh="nvim ~/.oh-my-zsh"
 alias zshconfig="nvim ~/.zshrc"
