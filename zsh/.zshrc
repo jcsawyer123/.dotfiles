@@ -30,6 +30,7 @@ source $ZSH/oh-my-zsh.sh
     # cd $HOME/.dotfiles & stow scripts
 if [ -d "$HOME/scripts" ]; then
     export PATH="$HOME/scripts:$PATH"
+    alias ts="tmux-send"
 fi
 
 # if [ -n "$WSL_DISTRO_NAME" ]; then
