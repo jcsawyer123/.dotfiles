@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+import os
+import argparse
+import subprocess
+
+def is_in_tmux():
+    return "TMUX" in os.environ
+
+def does_sessions_exists(session_name):
+    check_session_cmd = f'tmux has-session -t "{session_name}"'
+    return subprocess.run(check_session_cmd, shell=True, capture_output=True, text=True).returncode == 0
+
+def get_current_session():
+    get_current_session_cmd = 'tmux display-message -p "#S"'
+    return subprocess.run(get_current_session_cmd, shell=True, capture_output=True, text=True).stdout.strip() or None
+
+def create_or_attach_session(session_name):
+    # Get the current session name, if any
+    current_session = get_current_session()
+    session_exists = does_sessions_exists(session_name)
+
+    # Have to check "is_in_tmux" as current session will return last used session if exists
+    if is_in_tmux() and current_session == session_name:
+        print(f"Already in session: {session_name}")
+        return
+
+    # if session does not exist - Create it
+    if current_session and not session_exists:
+        # Create or attach to the specified session
+        create_session_cmd = f'tmux new-session -d -s "{session_name}"'
+        subprocess.run(create_session_cmd, shell=True)
+
+    # Already in tmux session
+    if is_in_tmux():
+        switch_session_cmd = f'tmux switch-client -t "{session_name}"'
+        subprocess.run(switch_session_cmd, shell=True)
+    else:
+        # Connect to the session
+        attach_session_cmd = f'tmux attach-session -t "{session_name}"'
+        subprocess.run(attach_session_cmd, shell=True)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Connect to or create a tmux session.')
+    parser.add_argument('session_name', metavar='nameOfsession', type=str, help='the name of the tmux session')
+    args = parser.parse_args()
+
+    create_or_attach_session(args.session_name)
