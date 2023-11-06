@@ -26,11 +26,16 @@ plugins=(
 )
 source $ZSH/oh-my-zsh.sh
 
-
-if [ -n "$WSL_DISTRO_NAME" ]; then
-    alias ssh="/mnt/c/Windows/System32/OpenSSH//ssh.exe" # or just ssh.exe
-    alias ssh-add="/mnt/c/Windows/System32/OpenSSH//ssh-add.exe" # or just ssh-add.exe
+# If scripts imported from .dotfiles then import
+    # cd $HOME/.dotfiles & stow scripts
+if [ -d "$HOME/scripts" ]; then
+    export PATH="$HOME/scripts:$PATH"
 fi
+
+# if [ -n "$WSL_DISTRO_NAME" ]; then
+#     alias ssh="/mnt/c/Windows/System32/OpenSSH//ssh.exe" # or just ssh.exe
+#     alias ssh-add="/mnt/c/Windows/System32/OpenSSH//ssh-add.exe" # or just ssh-add.exe
+# fi
 
 
 alias ohmyzsh="nvim ~/.oh-my-zsh"
