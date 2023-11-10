@@ -21,7 +21,7 @@ def create_or_attach_session(session_name):
 
     # Have to check "is_in_tmux" as current session will return last used session if exists
     if is_in_tmux() and current_session == session_name:
-        print(f"Already in session: {session_name}")
+        # print(f"Already in session: {session_name}")
         return
 
     # if session does not exist - Create it
@@ -39,9 +39,22 @@ def create_or_attach_session(session_name):
         attach_session_cmd = f'tmux attach-session -t "{session_name}"'
         subprocess.run(attach_session_cmd, shell=True)
 
+def create_or_open_window(session, window_name):
+    # If the window already exists with that name will will connect to that - Prevents window name duplication where possible.
+    connect_window_cmd = f'tmux new-window -Sn {window_name} -t {session}:'
+    print(f"Window: {connect_window_cmd}")
+    subprocess.run(connect_window_cmd, shell=True)
+
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Connect to or create a tmux session.')
+    parser = argparse.ArgumentParser(description='Connect to or create a tmux session. (Optional: Window)')
     parser.add_argument('session_name', metavar='nameOfsession', type=str, help='the name of the tmux session')
+    parser.add_argument('window_name', nargs='?', type=str, help='the name of the tmux window')
+
     args = parser.parse_args()
+    print(args.window_name)
 
     create_or_attach_session(args.session_name)
+    
+    if(args.window_name != None):
+        create_or_open_window(args.session_name, args.window_name)
+    
