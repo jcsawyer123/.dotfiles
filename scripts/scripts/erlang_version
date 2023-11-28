@@ -1,0 +1,75 @@
+#!/bin/bash
+
+# Note: You must run via source, or `. erlang_version`
+
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <INPUT>"
+    return 1
+fi
+
+NEW_VERSION=$1
+ACTIVATE_SCRIPT=~/erlang_versions/"$NEW_VERSION"/activate
+KERL_DEACTIVATE_SCRIPT=kerl_deactivate
+
+# REBAR3
+REBAR3_BOOTSTRAP="$HOME/dev/rebar3/bootstrap"
+REBAR3_LOCAL_INSTALL="$HOME/dev/rebar3/rebar3 local install"
+
+############################
+# Step 1
+
+# Attempt to get the version only if 'which erl' is successful
+if CURRENT_VERSION=$(which erl 2>/dev/null); then
+    CURRENT_VERSION=$(echo "$CURRENT_VERSION" | awk -F'/' '{print $(NF-2)}')
+fi
+
+# Check if CURRENT_VERSION equals NEW_VERSION - If it is then return now, we don't have to do anything
+if [ -n "$CURRENT_VERSION" ] && [ "$CURRENT_VERSION" = "$NEW_VERSION" ]; then
+    echo "Already set to $NEW_VERSION. Skipping activation."
+    return 1
+fi
+
+############################
+# Step 2 - Deactivate current version if active
+
+# Check if kerl_deactivate exists and CURRENT_VERSION is defined
+if [ -n "$CURRENT_VERSION" ] && type "$KERL_DEACTIVATE_SCRIPT" >/dev/null 2>&1; then
+    "$KERL_DEACTIVATE_SCRIPT"
+# else
+#     echo "Warning: kerl_deactivate function not defined or CURRENT_VERSION not set. Skipping deactivation step."
+fi
+
+############################
+# Step 3 - Activate specified erlang version
+
+# Check if activate script exists
+if [ ! -f "$ACTIVATE_SCRIPT" ]; then
+    echo "Error: Version not found. Activate script not found at $ACTIVATE_SCRIPT"
+    return 1
+fi
+source $ACTIVATE_SCRIPT
+
+############################
+# Step 4 - Configure Rebar
+# 1. If it already exists then can switch to it
+# 2. If it doesn't exist then run bootstrap and local install
+
+directory="$HOME/erlang_versions"
+NEWPATH=$HOME/erlang_versions/$NEW_VERSION/.cache/rebar3/bin
+
+if [ ! -d "$NEWPATH" ]; then
+    echo "Rebar3 not found for version, installing"
+    current_dir=$(pwd)
+    cd $HOME/dev/rebar3
+    ./bootstrap
+    ./rebar3 local install
+    cd "$current_dir"
+fi
+
+############################
+# Step 5 - Update Path
+
+# Remove old version from PATH
+export PATH=${PATH//:$HOME\/erlang_versions\/$CURRENT_VERSION\/.cache\/rebar3\/bin/}
+# Add new version to PATH
+export PATH=$NEWPATH:$PATH

@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
+
 import os
 import argparse
 import subprocess
+import sys
 
 def is_in_tmux():
     return "TMUX" in os.environ
@@ -14,6 +16,32 @@ def get_current_session():
     get_current_session_cmd = 'tmux display-message -p "#S"'
     return subprocess.run(get_current_session_cmd, shell=True, capture_output=True, text=True).stdout.strip() or None
 
+def list_sessions():
+    get_available_sessions = f"tmux list-sessions -F '#{{session_name}}'"
+    return subprocess.run(get_available_sessions, shell=True, capture_output=True, text=True).stdout.strip().split('\n') or None
+
+def get_session_input():
+    available_sessions = list_sessions()
+    if(not available_sessions):
+        sys.exit("No Tmux sessions found.")
+    print("Available sessions:")
+    for index, session in enumerate(available_sessions, 0):
+        print(f"{index + 1}: {session}")
+
+    user_input = input("Enter the session index or name to select a session: ")
+
+    if user_input.isdigit():
+        index = int(user_input)
+        if 1 <= index <= len(available_sessions):
+            return available_sessions[index - 1]
+        else:
+            sys.exit("Invalid index")
+    elif user_input in available_sessions:
+        return user_input
+    else:
+        sys.exit("Invalid session")
+
+
 def create_or_attach_session(session_name):
     # Get the current session name, if any
     current_session = get_current_session()
@@ -25,7 +53,7 @@ def create_or_attach_session(session_name):
         return
 
     # if session does not exist - Create it
-    if current_session and not session_exists:
+    if not session_exists:
         # Create or attach to the specified session
         create_session_cmd = f'tmux new-session -d -s "{session_name}"'
         subprocess.run(create_session_cmd, shell=True)
