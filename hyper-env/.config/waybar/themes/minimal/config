@@ -1,0 +1,43 @@
+{
+    // General Settings
+
+    
+    "layer": "top",
+    "margin-bottom": 0,
+    "margin-left": 0,
+    "margin-right": 0,    
+    "spacing": 0,
+
+    // Load Modules
+    "include": ["~/.config/waybar/themes/minimal/modules.json"],
+
+    // Modules Left
+    "modules-left": [
+        "custom/menu",
+        "hyprland/workspaces",
+        "cpu", 
+		"temperature", 
+		"memory"
+    ],
+
+    // Modules Center
+    "modules-center": [
+        "clock"
+    ],
+
+    // Modules Right    
+    "modules-right": [
+        "custom/mic",
+        "custom/updates",
+		"pulseaudio#source",
+		"pulseaudio#microphone",
+        "bluetooth",
+        "battery", 
+        "network",
+        "custom/cliphist",
+        "",
+        "tray",
+        "idle_inhibitor",
+        "custom/exit"
+    ]
+}
