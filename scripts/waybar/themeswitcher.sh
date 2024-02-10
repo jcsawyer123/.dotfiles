@@ -44,7 +44,8 @@ done
 # Show rofi dialog
 # ----------------------------------------------------- 
 listNames=${listNames::-2}
-choice=$(echo -e "$listNames" | rofi -dmenu -i -replace -config ~/.config/rofi/config-themes.rasi -no-show-icons -width 30 -p "Themes" -format i) 
+# choice=$(echo -e "$listNames" | rofi -dmenu -i -replace -config ~/.config/rofi/config-themes.rasi -no-show-icons -width 30 -p "Themes" -format i) 
+choice=$(echo -e "$listNames" | rofi -dmenu -i -replace -theme ~/.config/rofi/launcher/app.rasi -no-show-icons -width 30 -p "Themes" -format i) 
 
 # ----------------------------------------------------- 
 # Set new theme by writing the theme information to ~/.cache/.themestyle.sh

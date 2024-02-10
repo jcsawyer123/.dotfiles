@@ -44,7 +44,7 @@ case $1 in
         selected=$( find "$HOME/wallpaper" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -exec basename {} \; | sort -R | while read rfile
         do
             echo -en "$rfile\x00icon\x1f$HOME/wallpaper/${rfile}\n"
-        done | rofi -dmenu -replace -config ~/dotfiles/rofi/config-wallpaper.rasi)
+        done | rofi -dmenu -replace -config ~/.config/rofi/config-wallpaper.rasi)
         if [ ! "$selected" ]; then
             echo "No wallpaper selected"
             exit
@@ -79,7 +79,7 @@ newwall=$(echo $wallpaper | sed "s|$HOME/wallpaper/||g")
 # ----------------------------------------------------- 
 # Reload waybar with new colors
 # -----------------------------------------------------
-~/dotfiles/waybar/launch.sh
+~/.dotfiles/scripts/waybar/launch.sh
 
 # ----------------------------------------------------- 
 # Set the new wallpaper

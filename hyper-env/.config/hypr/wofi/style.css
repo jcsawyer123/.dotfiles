@@ -11,10 +11,10 @@
 	
 	
 	#window {
-		/*background-color: --wofi-color0;*/
+		/*background-color: #2F3741;*/
 		background-color: rgba(30, 30, 46, 0.7);
 		/* background-color: rgba(24, 24, 37, 1); */
-		color: --wofi-color2;
+		color: #d9e0ee;
 		border: 2px solid rgba(203, 166, 247, 0.3);
 		border-radius: 12px;
 
@@ -27,7 +27,7 @@
 	
 	#input {
 		background-color: rgba(24, 24, 37, 0.7);
-		/*border: 1px solid --wofi-color3;*/
+		/*border: 1px solid #4B87CD;*/
 		padding: 8px 12px;
 	}
 	
@@ -44,11 +44,11 @@
 	}
 	
 	#text {
-		color: --wofi-color2;
+		color: #d9e0ee;
 	}
 	
 	#text:selected {
-		color: --wofi-color0;
+		color: #2F3741;
 	}
 	
 	#entry {
@@ -56,9 +56,9 @@
 	}
 	
 	#entry:selected {
-		background-color: --wofi-color3;
+		background-color: #4B87CD;
 		background: linear-gradient(90deg, #bbccdd, #cca5dd);
-		color: --wofi-color0;
+		color: #2F3741;
 	}
 	
 	#unselected {
