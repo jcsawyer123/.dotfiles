@@ -4,10 +4,16 @@ export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
 # ----------------------------------------------------- 
 # FLAGS
 # ----------------------------------------------------- 
-ENABLE_ERLANG = false
-ENABLE_TMUX = false
 
+ENABLE_ERLANG=false
+ENABLE_TMUX=false
+
+
+# ----------------------------------------------------- 
+# CONFIGS
+# ----------------------------------------------------- 
 ERLANG_DEFAULT_VERSION=26
+
 
 # ----------------------------------------------------- 
 # SYSTEM IMPORTS / VARIABLES
@@ -42,7 +48,7 @@ if [ -d "$SCRIPTS/scripts" ]; then
 fi
 
 # Use TMUX commands
-if [ "$ENABLE_TMUX" = true]; then
+if [ "$ENABLE_TMUX" = true ]; then
     alias ts="tmux-send"
     alias fg="tmux-session main"
     alias bg="tmux-session background"
@@ -55,7 +61,7 @@ if [ "$ENABLE_TMUX" = true]; then
 fi
 
 # Erlang Support
-if [ "$ENABLE_ERLANG" = true]; then
+if [ "$ENABLE_ERLANG" = true ]; then
     # Function to handle invocation of `erlang_version` allows easy switching between erlang versions
     # Includes rebar3 setup
     # Usage:
@@ -96,7 +102,6 @@ stowit() {
     # -t target
     stow -v -R -t ${usr} ${app}
 }
-
 
 # ----------------------------------------------------- 
 # MISC
