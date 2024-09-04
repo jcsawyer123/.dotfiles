@@ -8,7 +8,7 @@ if [ "$#" -ne 1 ]; then
 fi
 
 NEW_VERSION=$1
-ACTIVATE_SCRIPT=~/erlang_versions/"$NEW_VERSION"/activate
+ACTIVATE_SCRIPT=~/dev/erlang_versions/"$NEW_VERSION"/activate
 KERL_DEACTIVATE_SCRIPT=kerl_deactivate
 
 # REBAR3
@@ -54,8 +54,8 @@ source $ACTIVATE_SCRIPT
 # 1. If it already exists then can switch to it
 # 2. If it doesn't exist then run bootstrap and local install
 
-directory="$HOME/erlang_versions"
-NEWPATH=$HOME/erlang_versions/$NEW_VERSION/.cache/rebar3/bin
+directory="$HOME/dev/erlang_versions"
+NEWPATH=$HOME/dev/erlang_versions/$NEW_VERSION/.cache/rebar3/bin
 
 if [ ! -d "$NEWPATH" ]; then
     echo "Rebar3 not found for version, installing"
@@ -70,6 +70,6 @@ fi
 # Step 5 - Update Path
 
 # Remove old version from PATH
-export PATH=${PATH//:$HOME\/erlang_versions\/$CURRENT_VERSION\/.cache\/rebar3\/bin/}
+export PATH=${PATH//:$HOME\/dev\/erlang_versions\/$CURRENT_VERSION\/.cache\/rebar3\/bin/}
 # Add new version to PATH
 export PATH=$NEWPATH:$PATH
