@@ -304,7 +304,7 @@
     "custom/lock": {
       "format": "",
       "on-click": "~/.dotfiles/scripts/hypr/core/lockscreen",
-      "tooltip": false,
+      "tooltip": false
     },
     
     "custom/mic": {

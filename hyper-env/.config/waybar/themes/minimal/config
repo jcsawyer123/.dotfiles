@@ -38,6 +38,7 @@
         "",
         "tray",
         "idle_inhibitor",
+        // "custom/lock",
         "custom/exit"
     ]
 }

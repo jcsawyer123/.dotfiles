@@ -56,7 +56,7 @@
       "custom/lock": {
         "format": "",
         "on-click": "~/.dotfiles/scripts/hypr/core/lockscreen",
-        "tooltip": false,
+        "tooltip": false
       },
       
       "custom/mic": {
@@ -229,7 +229,7 @@
     "network": {
         "format": "{ifname}",
         "format-wifi": "{essid}  ",
-        "format-ethernet": " Wired",
+        "format-ethernet": "",
         "format-disconnected": "", //An empty format will hide the module.
         "tooltip-format": "{ipaddr}  {bandwidthUpBytes}  {bandwidthDownBytes}",
         "format-linked": " {ifname} (No IP)",
@@ -352,7 +352,7 @@
     "user": {
         "format": "{user}",
         "interval": 60,
-        "icon": false,
+        "icon": false
     },
 
     // Idle Inhibator
@@ -360,7 +360,7 @@
         "format": "{icon}",
         "tooltip": true,
         "format-icons":{
-            "activated": "",
+            "activated": "",
             "deactivated": ""
         },
         "on-click-right": "swaylock"        
