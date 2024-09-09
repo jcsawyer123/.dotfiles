@@ -253,7 +253,6 @@
       
     "hyprland/workspaces": {
       "format": "{name}",
-      //"format": "{name}: {icon}",
       "on-click": "activate",
       "all-outputs": false,
       "sort-by-number": true,

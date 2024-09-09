@@ -24,8 +24,8 @@ window {
     location:                    center;
     anchor:                      center;
     fullscreen:                  true;
-    width:                       1366px;
-    height:                      768px;
+    width:                       1920px;
+    height:                      1080px;
     x-offset:                    0px;
     y-offset:                    0px;
 
@@ -92,9 +92,9 @@ listview {
     enabled:                     true;
     columns:                     7;
     lines:                       4;
-    cycle:                       true;
-    dynamic:                     true;
-    scrollbar:                   false;
+    cycle:                       false;
+    dynamic:                     false;
+    scrollbar:                   true;
     layout:                      vertical;
     reverse:                     false;
     fixed-height:                true;

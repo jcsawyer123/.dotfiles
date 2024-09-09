@@ -108,7 +108,7 @@
         "tooltip-format": "{}",
         "escape": true,
         "return-type": "json",       
-        "exec": "/.dotfiles/scripts/waybar/updates.sh",
+        "exec": "~/.dotfiles/scripts/waybar/updates.sh",
         "restart-interval": 60,
         "on-click": "foot -e ~/.dotfiles/scripts/waybar/installupdates.sh",
         "on-click-right": "~/.dotfiles/scripts/waybar/helpers/software.sh",

@@ -1,12 +1,15 @@
 # If you come from bash you might have to change your $PATH
 export PATH=$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
 
+# Rebar3
+export PATH=/home/jcs/.cache/rebar3/bin:$PATH
+
 # ----------------------------------------------------- 
 # FLAGS
 # ----------------------------------------------------- 
 
 ENABLE_ERLANG=false
-ENABLE_TMUX=false
+ENABLE_TMUX=true
 
 
 # ----------------------------------------------------- 
@@ -106,3 +109,18 @@ stowit() {
 # ----------------------------------------------------- 
 # MISC
 # ----------------------------------------------------- 
+
+# NVM
+source /usr/share/nvm/init-nvm.sh
+
+# PNPM
+export PNPM_HOME="/home/jcs/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# Zoxide - CD Replacement
+[ -s "/usr/bin/zsh" ] && eval "$(zoxide init zsh)"
+
+. /opt/asdf-vm/asdf.sh

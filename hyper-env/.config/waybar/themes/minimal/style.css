@@ -363,11 +363,10 @@ window#waybar.empty #window {
  * ----------------------------------------------------- */
 #custom-exit {
     color: @textcolor1;
-    background-color: #a6e3a1;
+    background-color: #f38ba8;
     padding: 0 16px;
     border-radius: 10px;
     margin: 5px 5px 5px 1px;
-
 }
 
 #custom-lock {
@@ -379,12 +378,16 @@ window#waybar.empty #window {
 
 /* Go green if any mic is in use */
 #custom-mic {
-    padding: 7px;
-    border-radius: 10px;
-    color: #11111b;
+    color: @textcolor;
+    background-color: @sectioncolor;
+    border-radius: 15px;
+    margin: 5px 1px 6px 1px;
+    padding-left: 1em;
+    padding-right: 1em;
 }
+
 #custom-mic.used {
-    background-color: #a6e3a1;
+    color: #a6e3a1;
 }
 
 

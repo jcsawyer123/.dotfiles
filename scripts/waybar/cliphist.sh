@@ -18,6 +18,6 @@ case $1 in
        fi
        ;;
 
-    *) cliphist list | rofi -dmenu -replace -config ~/.config/rofi/config-cliphist.rasi | cliphist decode | wl-copy
+    *) cliphist list | rofi -dmenu -replace -theme ~/.config/rofi/launcher/list.rasi | cliphist decode | wl-copy
        ;;
 esac

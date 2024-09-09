@@ -3,19 +3,19 @@
 ## General
 show=drun
 prompt=Apps
-normal_window=true
+normal_window=false
 layer=overlay
 term=foot
 columns=2
 
 ## Geometry
-width=30%
-height=30%
-location=top_left
-orientation=vertical
-halign=fill
-line_wrap=off
-dynamic_lines=false
+; width=30%
+; height=30%
+; location=top_left
+; orientation=vertical
+; halign=fill
+; line_wrap=off
+; dynamic_lines=false
 
 ## Images
 allow_markup=true
@@ -29,11 +29,11 @@ parse_search=false
 insensitive=false
 
 ## Other
-hide_scroll=true
-no_actions=true
+hide_scroll=false
+no_actions=false
 sort_order=default
 gtk_dark=true
-filter_rate=100
+filter_rate=200
 
 ## Keys
 key_expand=Tab
