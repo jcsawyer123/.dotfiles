@@ -17,3 +17,8 @@ These dotfiles are my mess of random things that may or may not be up to date.
 - foot
 - swaylock
 - wlogout
+- micro
+- cliphist
+- blueman
+- pulseaudio
+- wireplumber

@@ -354,7 +354,7 @@ window#waybar.empty #window {
 }
 
 #idle_inhibitor.activated {
-    padding: 0 12px;
+    padding: 0 16px;
     color: #dc2f2f;
 }
 
