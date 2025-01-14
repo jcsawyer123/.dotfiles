@@ -168,10 +168,11 @@
 
     // Clock
     "clock": {
+        "timezone": "Europe/London",
         // "timezone": "America/New_York",
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "tooltip-format": "<big>{:L%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         // START CLOCK FORMAT
-        "format-alt": "{:%Y-%m-%d}"
+        "format-alt": "{:L%Y-%m-%d}"
         // END CLOCK FORMAT
     },
 

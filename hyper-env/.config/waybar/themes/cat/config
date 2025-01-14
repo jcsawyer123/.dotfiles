@@ -3,6 +3,7 @@
 	"layer": "top",
 	//"mode": "dock",
 	"exclusive": true,
+	"timezone": "Europe/London",
 	"passthrough": false,
 	"position": "top",
 	"spacing": 4,

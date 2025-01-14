@@ -74,8 +74,9 @@
     
     "clock": {
       //"format": "{:%I:%M %p}",
-      "format": " {:%H:%M}",
-      "format-alt": " {:%H:%M   %Y, %d %B, %A}",
+      "timezone": "Europe/London",
+      "format": " {:L%H:%M}",
+      "format-alt": " {:L%H:%M   %Y, %d %B, %A}",
       "tooltip-format": "<tt><small>{calendar}</small></tt>",
       "calendar": {
         "mode"          : "year",
