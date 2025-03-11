@@ -1,0 +1,33 @@
+# Window settings
+maximized = false
+fullscreen = false
+remember-window-size = true
+idle = false
+
+# Performance
+refresh-rate = 144
+no-idle = true
+vsync = true
+
+# Cursor and animations
+cursor-animation-length = 0.1
+cursor-trail-size = 0.05
+cursor-antialiasing = true
+cursor-vfx-mode = "railgun"
+cursor-vfx-opacity = 200.0
+cursor-vfx-particle-density = 7.0
+cursor-vfx-particle-speed = 10.0
+
+# Appearance
+transparency = 1.0
+scroll-animation-length = 0.3
+
+# Font settings
+font-family = "NotoSansM NFM"
+font-size = 12
+
+# Input settings
+touch-deadzone = 6.0
+touch-drag-timeout = 0.17
+input-use-logo = false
+input-macos-alt-is-meta = false

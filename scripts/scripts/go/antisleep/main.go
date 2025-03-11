@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"math"
 	"math/rand"
 	"os"
 	"path/filepath"
@@ -14,7 +15,7 @@ import (
 	"github.com/sevlyar/go-daemon"
 )
 
-const pidFile = ".mouse_mover_pid"
+const pidFile = ".antisleep_pid"
 
 var logger *log.Logger
 
@@ -27,28 +28,64 @@ func initLogger(logFilePath string) {
 	logger.Println("Logger initialized")
 }
 
+func easeOutQuad(t float64) float64 {
+	return -t * (t - 2)
+}
+
 func moveMouse() error {
-	x, y := robotgo.GetMousePos()
-	newX := x + rand.Intn(500) - 5
-	newY := y + rand.Intn(500) - 5
-	robotgo.MoveMouse(newX, newY)
-	logger.Printf("Moved mouse from (%d, %d) to (%d, %d)", x, y, newX, newY)
+	startX, startY := robotgo.GetMousePos()
+	
+	// Occasionally make a larger movement
+	var endX, endY int
+	if rand.Float64() < 0.1 { // 10% chance of larger movement
+		endX = startX + rand.Intn(201) - 100 // -100 to 100
+		endY = startY + rand.Intn(201) - 100 // -100 to 100
+	} else {
+		endX = startX + rand.Intn(21) - 10 // -10 to 10
+		endY = startY + rand.Intn(21) - 10 // -10 to 10
+	}
+
+	// Calculate distance
+	distance := math.Sqrt(float64((endX-startX)*(endX-startX) + (endY-startY)*(endY-startY)))
+	
+	// Determine number of steps based on distance
+	steps := int(distance * 2) // Adjust this multiplier to change overall speed
+	if steps < 10 {
+		steps = 10
+	}
+
+	for step := 0; step <= steps; step++ {
+		t := float64(step) / float64(steps)
+		t = easeOutQuad(t) // Apply easing function
+		
+		x := startX + int(float64(endX-startX)*t)
+		y := startY + int(float64(endY-startY)*t)
+		
+		robotgo.MoveMouse(x, y)
+		
+		// Random sleep to vary speed slightly
+		time.Sleep(time.Duration(rand.Intn(2)+1) * time.Millisecond)
+	}
+
+	// logger.Printf("Moved mouse from (%d, %d) to (%d, %d)", startX, startY, endX, endY)
 	return nil
 }
 
+
 func mouseMover() {
-	logger.Println("Mouse mover routine started")
+	logger.Println("Antisleep routine started")
 	for {
 		err := moveMouse()
 		if err != nil {
 			logger.Printf("Error moving mouse: %v", err)
 		}
-		sleepTime := time.Duration(rand.Intn(1)+1) * time.Second
-		logger.Printf("Sleeping for %v", sleepTime)
+		
+		// Random sleep between movements
+		sleepTime := time.Duration(rand.Intn(5)+1) * time.Second
+		// logger.Printf("Sleeping for %v", sleepTime)
 		time.Sleep(sleepTime)
 	}
 }
-
 func startMouseMover() {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
@@ -60,7 +97,7 @@ func startMouseMover() {
 	logFilePath := filepath.Join(homeDir, ".mouse_mover.log")
 
 	initLogger(logFilePath)
-	logger.Println("Starting mouse mover")
+	logger.Println("Starting Antisleep")
 
 	if _, err := os.Stat(pidFilePath); err == nil {
 		logger.Println("PID file found, checking if process is running")
@@ -87,8 +124,8 @@ func startMouseMover() {
 				} else {
 					err = process.Signal(syscall.Signal(0))
 					if err == nil {
-						logger.Println("Mouse mover is already running")
-						fmt.Println("Mouse mover is already running. Check", logFilePath, "for logs.")
+						logger.Println("Antisleep is already running")
+						fmt.Println("Antisleep is already running. Check", logFilePath, "for logs.")
 						return
 					}
 					logger.Println("Process not running, removing stale PID file")
@@ -114,7 +151,7 @@ func startMouseMover() {
 		return
 	}
 	if d != nil {
-		fmt.Println("Mouse mover started. Check", logFilePath, "for logs.")
+		fmt.Println("Antisleep started. Check", logFilePath, "for logs.")
 		return
 	}
 	defer cntxt.Release()
@@ -149,11 +186,11 @@ func stopMouseMover() {
 	logFilePath := filepath.Join(homeDir, ".mouse_mover.log")
 
 	initLogger(logFilePath)
-	logger.Println("Stopping mouse mover")
+	logger.Println("Stopping Antisleep")
 
 	if _, err := os.Stat(pidFilePath); os.IsNotExist(err) {
-		logger.Println("PID file not found, mouse mover is not running")
-		fmt.Println("Mouse mover is not running.")
+		logger.Println("PID file not found, Antisleep is not running")
+		fmt.Println("Antisleep is not running.")
 		return
 	}
 
@@ -192,8 +229,8 @@ func stopMouseMover() {
 		return
 	}
 
-	logger.Println("Mouse mover stopped")
-	fmt.Println("Mouse mover stopped.")
+	logger.Println("Antisleep stopped")
+	fmt.Println("Antisleep stopped.")
 }
 
 func statusMouseMover() {
@@ -204,17 +241,17 @@ func statusMouseMover() {
 	}
 
 	pidFilePath := filepath.Join(homeDir, pidFile)
-	logFilePath := filepath.Join(homeDir, ".mouse_mover.log")
+	logFilePath := filepath.Join(homeDir, ".antisleep.log")
 
 	initLogger(logFilePath)
-	logger.Println("Checking mouse mover status")
+	logger.Println("Checking Antisleep status")
 
 	if _, err := os.Stat(pidFilePath); os.IsNotExist(err) {
-		logger.Println("PID file not found, mouse mover is not running")
-		fmt.Println("Mouse mover is not running.")
+		logger.Println("PID file not found, Antisleep is not running")
+		fmt.Println("Antisleep is not running.")
 	} else {
-		logger.Println("PID file found, mouse mover is running")
-		fmt.Println("Mouse mover is running.")
+		logger.Println("PID file found, Antisleep is running")
+		fmt.Println("Antisleep is running.")
 	}
 }
 
@@ -222,7 +259,7 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	if len(os.Args) != 2 {
-		fmt.Println("Usage: mouse_mover [start|stop|status]")
+		fmt.Println("Usage: antisleep [start|stop|status]")
 		os.Exit(1)
 	}
 

@@ -73,6 +73,7 @@
     },
     
     "clock": {
+      "timezone": "Europe/London",
       //"format": "{:%I:%M %p}",
       "format": " {:%H:%M}",
       "format-alt": " {:%H:%M   %Y, %d %B, %A}",
